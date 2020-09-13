@@ -6,5 +6,8 @@
 
 int main()
 {
-
+	int num;
+	std::cout << "Number of tiles? ";
+	std::cin >> num;
+	Board{num};
 }

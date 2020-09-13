@@ -1,6 +1,8 @@
 #ifndef __TILE_h
 #define __TILE_H
 
+#include "board.h"
+
 class Tile
 {
 	public:
