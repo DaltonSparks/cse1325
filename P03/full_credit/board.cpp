@@ -5,6 +5,7 @@
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
 #include "board.h"
+#include "tile.h"
 // random generator function:
 int myrandom (int i) { return std::rand()%i;}
 
@@ -28,7 +29,7 @@ Board::Board(int tiles) {
 	"tens", "tide", "tied", "tree", "twin",
 	"zero", "zips",
 	};
-	
+
 	
   	// using built-in random generator:
   	std::random_shuffle ( words.begin(), words.end() );
@@ -36,17 +37,17 @@ Board::Board(int tiles) {
   	// using myrandom:
   	std::random_shuffle ( words.begin(), words.end(), myrandom);
 
-	/*for(int j = 0; j <= tiles; j++)
+	//_tiles.at(0)="";
+	
+	for(int j = 0; j < tiles; j++)
 	{
-		_tiles.push_back(words(j);
-	}*/
-
-  	// print out content:
- 	std::cout << "myvector contains:";
-  	for (std::vector<std::string>::iterator it=words.begin(); it!=words.end(); ++it)
-	{
-    std::cout << '\n' << *it;
+		_tiles.push_back(words[j]);
+		_tiles.push_back(words[j]);
+		
 	}
-  std::cout << '\n';
+	for(int k=0;k<_tiles.size();k++)
+	{
+		std::cout << " " << std::endl;
+	}
 
 } 

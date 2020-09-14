@@ -1,22 +1,25 @@
-OBJS	= main.o board.o tile.o
-SOURCE	= main.cpp board.cpp tile.cpp
-HEADER	= board.h tile.h
-OUT	= game
-CC	 = g++
-FLAGS	 = -g -c -Wall
-LFLAGS	 = 
+CXXFLAGS += --std=c++17
 
-all: $(OBJS)
-	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
+all: game
 
-main.o: main.cpp
-	$(CC) $(FLAGS) main.cpp -std=c++17
+game: main.o board.o tile.o *.h
+	$(CXX) $(CXXFLAGS) main.o board.o tile.o -o game
 
-board.o: board.cpp
-	$(CC) $(FLAGS) board.cpp -std=c++17
+main.o: main.cpp *.h
+	$(CXX) $(CXXFLAGS) -c main.cpp -o main.o
 
-tile.o: tile.cpp
-	$(CC) $(FLAGS) tile.cpp -std=c++17
+board.o: board.cpp *.h
+	$(CXX) $(CXXFLAGS) -c board.cpp -o board.o
+
+tile.o: tile.cpp *.h
+	$(CXX) $(CXXFLAGS) -c tile.cpp -o tile.o
+
+tile.gch: tile.h
+	$(CXX) $(CXXFLAGS) -c tile.h -o tile.gch
+
+board.gch: board.h
+	$(CXX) $(CXXFLAGS) -c board.h -o board.gch
+
 
 
 clean:

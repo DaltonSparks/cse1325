@@ -1,7 +1,8 @@
 #ifndef __BOARD_H
 #define __BOARD_H
-
+ 
 #include "tile.h"
+#include <vector>
 
 class Board
 {
