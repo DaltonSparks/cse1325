@@ -1,9 +1,9 @@
 CXXFLAGS += --std=c++17
 
-all: game
+all: match
 
-game: main.o board.o tile.o *.h
-	$(CXX) $(CXXFLAGS) main.o board.o tile.o -o game
+match: main.o board.o tile.o *.h
+	$(CXX) $(CXXFLAGS) main.o board.o tile.o -o match
 
 main.o: main.cpp *.h
 	$(CXX) $(CXXFLAGS) -c main.cpp -o main.o
@@ -23,4 +23,4 @@ board.gch: board.h
 
 
 clean:
-	rm -f *.o *.gch ~* a.out game
+	rm -f *.o *.gch ~* a.out match

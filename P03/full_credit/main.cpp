@@ -2,8 +2,6 @@
 #include <ctime>
 #include <vector>
 #include "board.h"
-
-
 int main()
 {
 	int num;

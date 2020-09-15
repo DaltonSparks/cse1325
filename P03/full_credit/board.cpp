@@ -5,13 +5,14 @@
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
 #include "board.h"
-#include "tile.h"
+//#include "tile.h"
 // random generator function:
 int myrandom (int i) { return std::rand()%i;}
 
 Board::Board(int tiles) {
 
   	std::srand ( unsigned ( std::time(0) ) );
+	std::vector<std::string> w;
 	std::vector<std::string> words {
 	"bang", "beam", "bear", "cafe", "came",
 	"cold", "come", "cool", "date", "diet",
@@ -45,9 +46,20 @@ Board::Board(int tiles) {
 		_tiles.push_back(words[j]);
 		
 	}
-	for(int k=0;k<_tiles.size();k++)
-	{
-		std::cout << " " << std::endl;
-	}
+	  	// using built-in random generator:
+  	std::random_shuffle ( _tiles.begin(), _tiles.end() );
+
+  	// using myrandom:
+  	std::random_shuffle ( _tiles.begin(), _tiles.end(), myrandom);
+
+
 
 } 
+
+//std::string Board::attempt(int tile1, int tile2)
+//{
+
+//}
+
+std::string Board::to_string(){ return  "i"; }
+
