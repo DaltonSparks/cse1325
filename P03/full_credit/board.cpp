@@ -56,10 +56,11 @@ Board::Board(int tiles) {
 
 } 
 
-//std::string Board::attempt(int tile1, int tile2)
-//{
-
-//}
+std::string Board::attempt(int tile1, int tile2)
+{
+	
+	return "MATCHES";
+}
 
 std::string Board::to_string(){ return  "i"; }
 

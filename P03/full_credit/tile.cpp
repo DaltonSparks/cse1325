@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector> 
-//#include "tile.h"
 #include "board.h"
 
 int Tile::_width{-1};
