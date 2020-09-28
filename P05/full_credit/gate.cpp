@@ -27,11 +27,9 @@ void Gate::input(Pin pin, Signal signal)
 	else
 		_input2 = signal;
 
-	if(_to_gate != NULL){}//do nothing
-	else
-	{
+	if(_to_gate != NULL)
 		_to_gate->input(_to_pin,output());
-	}
+
 }
 
 
