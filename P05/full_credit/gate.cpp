@@ -1,15 +1,15 @@
 #include <iostream> 
 #include "gate.h"
 
-Gate::Gate() : _input1{1}, _input2{1},to_pin{1}
+Gate::Gate() : _input1{1}, _input2{1},_to_pin{1}
 {
 
 }
 
 void Gate::connect(Gate& gate, Pin input_pin)
 {
-	to_gate = &gate;
-	to_pin = input_pin;
+	_to_gate = &gate;
+	_to_pin = input_pin;
 }
 
 Signal Gate::input(Pin pin)
@@ -27,14 +27,11 @@ void Gate::input(Pin pin, Signal signal)
 	else
 		_input2 = signal;
 
-	if(to_gate != NULL){}//do nothing
+	if(_to_gate != NULL){}//do nothing
 	else
 	{
-		connect(*to_gate, to_pin);
+		_to_gate->input(_to_pin,output());
 	}
 }
 
-/*Signal And::output()
-{
-	return ;
-}*/
+

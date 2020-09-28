@@ -11,24 +11,25 @@ class Gate
 		void connect(Gate& gate, Pin input_pin);
 		void input(Pin pin, Signal signal);
 		Signal input(Pin pin);
-		Signal output();
-	private:
+		virtual Signal output() = 0;
+	protected:
 		Signal _input1;
 		Signal _input2;
-		Gate* to_gate;
-		Pin to_pin;
+	private:
+		Gate* _to_gate;
+		Pin _to_pin;
 };
 
 class And : public Gate
 {
 	public:
-		Signal output();
+		Signal output() override {return _input1 && _input2;}
 };
 
 class Or : public Gate
 {
 	public:
-		Signal output();
+		Signal output() override {return _input1 || _input2;}
 };
 
 #endif
