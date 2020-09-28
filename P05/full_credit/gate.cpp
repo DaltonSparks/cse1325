@@ -1,7 +1,7 @@
 #include <iostream> 
 #include "gate.h"
 
-Gate::Gate() : _input1{1}, _input2{1},_to_pin{1}
+Gate::Gate() : _input1{0}, _input2{0},_to_pin{0}
 {
 
 }
