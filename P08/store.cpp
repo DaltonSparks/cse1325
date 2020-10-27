@@ -5,10 +5,11 @@ Store::Store(std::string name) : _name{name} { }
 
 void Store::save(std::ostream& ost) {
 	ost << _name << std::endl;
+	ost << _products.size() << std::endl;
 	for(auto s : _products) {
-		ost << typeid(*s).name() << ' '; // Write the name of the actual type
+		//ost << typeid(*s).name() << ' '; // Write the name of the actual type
 		s->save(ost);
-		ost << std::endl;  // one line per shape (this is ignored when loading)
+		ost << std::endl;  // new line
   	}
 }
 

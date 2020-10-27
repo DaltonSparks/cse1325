@@ -7,8 +7,8 @@ Product::Product(std::string name, double price, std::string description)
 void Product::save(std::ostream& ost) {
 	ost << _name << std::endl;
 	ost << std::to_string(_stocknum) << std::endl;
-	ost << std::to_string(_price) << std::endl;
-	ost << _description << std::endl;
+	ost << std::to_string(round(_price*100)/100) << std::endl;
+	ost << _description;// << std::endl;
 }
 
 std::string Product::to_string() const {

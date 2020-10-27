@@ -8,7 +8,7 @@ Mulch::Mulch(std::string name, double price, std::string description, int volume
 void Mulch::save(std::ostream& ost) {
 	ost << "Mulch" << std::endl;
 	Product::save(ost);
-	ost << std::to_string(_volume) << '\n' << ::to_string(_material) << std::endl;
+	ost << '\n' << std::to_string(_volume) << '\n' << ::to_string(_material);// << std::endl;
 }
 
 std::string Mulch::to_string() const {

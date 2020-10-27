@@ -2,7 +2,7 @@
 #include "entrydialog.h"
 #include <fstream>
 
-Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}}, filename{"untitled"} {
+Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}}, filename{"untitled.manga"} {
 	
 	// ///////// //
 	// GUI SETUP //

@@ -8,7 +8,7 @@ Plant::Plant(std::string name, double price, std::string description, std::strin
 void Plant::save(std::ostream& ost) {
 	ost << "Plant" << std::endl;
 	Product::save(ost);
-	ost << _species << '\n' << ::to_string(_exposure) << std::endl;
+	ost << '\n' << _species << '\n' << ::to_string(_exposure);// << std::endl;
 }
 
 std::string Plant::to_string() const {
