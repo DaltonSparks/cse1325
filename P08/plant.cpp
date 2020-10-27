@@ -2,6 +2,15 @@
 
 Plant::Plant(std::string name, double price, std::string description, std::string species, Exposure exposure)
     : Product(name, price, description), _species{species}, _exposure{exposure} { }
+
+//Plant::Plant(std::istream& ist) : Products(ist) {}
+
+void Plant::save(std::ostream& ost) {
+	ost << "Plant" << std::endl;
+	Product::save(ost);
+	ost << _species << '\n' << ::to_string(_exposure) << std::endl;
+}
+
 std::string Plant::to_string() const {
     return Product::to_string() + "\n  Species: " + _species + "\n  Exposure: " + ::to_string(_exposure);
 }

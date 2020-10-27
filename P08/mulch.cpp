@@ -2,6 +2,15 @@
 
 Mulch::Mulch(std::string name, double price, std::string description, int volume, Material material)
     : Product(name, price, description), _volume{volume}, _material{material} { }
+
+//Mulch::Mulch(std::istream& ist) : Products(ist) {}
+
+void Mulch::save(std::ostream& ost) {
+	ost << "Mulch" << std::endl;
+	Product::save(ost);
+	ost << std::to_string(_volume) << '\n' << ::to_string(_material) << std::endl;
+}
+
 std::string Mulch::to_string() const {
     return Product::to_string() + "\n  Volume: " + std::to_string(_volume) + " ft³\n  Material: " + ::to_string(_material);
 }
