@@ -13,7 +13,7 @@ class Mainwin : public Gtk::Window {
 		void on_save_as_click();
 		void on_open_click();
 		void on_about_click();
-		void on_new_store_click();
+		void on_new_store_click(bool untitled = false);
 		void on_new_tool_click();
 		void on_new_plant_click();
 		void on_new_mulch_click();

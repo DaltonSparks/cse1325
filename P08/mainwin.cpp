@@ -102,7 +102,7 @@ Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}}, filename{"untitl
 
 	vbox->show_all();
 
-	//on_new_store_click();
+	on_new_store_click(true);
 }
 
 Mainwin::~Mainwin() { }
@@ -110,6 +110,27 @@ Mainwin::~Mainwin() { }
 	// ///////// //
 	// CALLBACKS //
 	// ///////// //
+
+void Mainwin::on_new_store_click(bool untitled) {
+	/*delete store;
+	try {
+		std::string storename = get_string("New store name?");
+		store = new Store(storename);
+		on_view_products_click();
+	}catch(std::exception& e) {
+	}
+
+    on_view_products_click();*/
+    std::string name = "Untitled";
+    try {
+        if(!untitled) name = get_string("New store name?");
+        filename = "untitled.manga";
+    } catch (std::exception& e) {
+    }
+    delete store; store = nullptr;
+    store = new Store{name};
+    on_view_products_click();
+}
 
 void Mainwin::on_save_click() {
     try {
@@ -178,14 +199,19 @@ void Mainwin::on_open_click(){
 
 	int result = dialog.run();
 
-	if (result == 1) {
-		try {
-			delete store;
-			//std::ifstream ifs{dialog.get_filename()};
-			store = new Store{"ifs"};
-			} catch (std::exception& e) {
-				Gtk::MessageDialog{*this, "Unable to open game"}.run();
-		}
+    if (result == 1) {
+        try {
+            filename = dialog.get_filename();
+            std::ifstream ifs{filename};
+            delete store; store = nullptr;
+            store = new Store{ifs};
+            if(!ifs.eof()) throw std::runtime_error{"Error reading file " + filename};
+            on_view_products_click();
+        } catch (std::exception& e) {
+            Gtk::MessageDialog{*this, "Unable to open store: " + std::string{e.what()},
+                false, Gtk::MESSAGE_WARNING}.run();
+            on_new_store_click(true);
+        }
 	}
 }
 
@@ -193,15 +219,7 @@ void Mainwin::on_about_click(){
 	Gtk::MessageDialog{*this, "ABOUT\n\nVersion 0.1\n\nCopyright 2020\n\n This program comes with no warranty"}.run();  // Concise message dialog!
 }
 
-void Mainwin::on_new_store_click() {
-	delete store;
-	try {
-		std::string storename = get_string("New store name?");
-		store = new Store(storename);
-		on_view_products_click();
-	}catch(std::exception& e) {
-	}
-}
+
 
 
 

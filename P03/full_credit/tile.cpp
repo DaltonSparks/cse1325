@@ -3,11 +3,11 @@
 #include "board.h"
 
 int Tile::_width{-1};
-std::string Tile::_blank{""};
+std::string Tile::_blank;
 
 Tile::Tile(std::string word) : _word{word}, _matched{false}
 {
-	if(word.size() > _width)
+	if((int)word.size() > _width)
 	{
 		_width = word.size();
 		_blank = "";
@@ -19,7 +19,10 @@ Tile::Tile(std::string word) : _word{word}, _matched{false}
 bool Tile::match(Tile& tile)
 {
 	if(_word==tile._word)
+	{
 		_matched=true;
+		tile._matched = true;
+	}
 	return(Tile::_matched);
 }
 

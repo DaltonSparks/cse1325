@@ -1,23 +1,18 @@
 #include "mainwin.h"
-#include "store.h"
 #include "entrydialog.h"
-#include <iostream>
 
-Mainwin::Mainwin() : store{nullptr} {
+Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}} {
 	
 	// ///////// //
 	// GUI SETUP //
 	// ///////// //
 
-	set_default_size(400,400);
+	set_default_size(640,480);
 	set_title("Manga Magic");
 
 	Gtk::Box *vbox = Gtk::manage(new Gtk::VBox);
     add(*vbox);
 
-	on_new_store_click();
-
-	std::ostringstream oss;
 
 	//MENU
 	Gtk::MenuBar *menubar = Gtk::manage(new Gtk::MenuBar);
@@ -56,10 +51,17 @@ Mainwin::Mainwin() : store{nullptr} {
 	//MULCH
 	//Append Mulch to the Insert menu
 	Gtk::MenuItem *menuitem_mulch = Gtk::manage(new Gtk::MenuItem("_Mulch", true));
-	menuitem_mulch->signal_activate().connect([this] {this->on_new_tool_click();});
+	menuitem_mulch->signal_activate().connect([this] {this->on_new_mulch_click();});
 	insertmenu->append(*menuitem_mulch);
 
+	display = Gtk::manage(new Gtk::Label());
+	display->set_hexpand(true);
+	display->set_vexpand(true);
+	vbox->add(*display);
+
 	vbox->show_all();
+
+	on_new_store_click();
 }
 
 Mainwin::~Mainwin() { }
@@ -70,107 +72,96 @@ Mainwin::~Mainwin() { }
 
 void Mainwin::on_new_store_click() {
 	delete store;
-	std::string S;
-	store = new Store(S);
+	store = new Store("nothing");
 }
 
 
-//I couldn't ever really get the entrydialog to work I tried to follow lecture 14 and it led me to this
-//I am not sure where the return value is very confusing 
+
 void Mainwin::on_new_tool_click() {
-
-    EntryDialog ndialog{*this, "<big>New Product</big>", true};
-    ndialog.set_secondary_text("Name?", true);
-    ndialog.set_text("");
-	ndialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ndialog.run();
-
-	EntryDialog pdialog{*this, "<big>New Product</big>", true};
-    pdialog.set_secondary_text("Price?", true);
-    pdialog.set_text("");
-	pdialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    pdialog.run();
-
-	EntryDialog ddialog{*this, "<big>New Product</big>", true};
-    ddialog.set_secondary_text("Description?", true);
-    ddialog.set_text("");
-	ddialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ddialog.run();
-	//Gtk::MessageDialog mdialog{*this, tdialog.get_text()};
-    //mdialog.run();
+	try {
+		std::string name = get_string("Name?");
+		double price = get_double("Price?");
+		std::string description = get_string("Description?");
+		store->add_product(*(new Tool{name,price,description}));
+		on_view_products_click();
+	}catch(std::exception& e) {
+	}
 }
 
 void Mainwin::on_new_plant_click() {
-
-	EntryDialog ndialog{*this, "<big>New Product</big>", true};
-    ndialog.set_secondary_text("Name?", true);
-    ndialog.set_text("");
-	ndialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ndialog.run();
-
-	EntryDialog pdialog{*this, "<big>New Product</big>", true};
-    pdialog.set_secondary_text("Price?", true);
-    pdialog.set_text("");
-	pdialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    pdialog.run();
-
-	EntryDialog ddialog{*this, "<big>New Product</big>", true};
-    ddialog.set_secondary_text("Description?", true);
-    ddialog.set_text("");
-	ddialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ddialog.run();
-
-	EntryDialog sdialog{*this, "<big>New Product</big>", true};
-    sdialog.set_secondary_text("Species?", true);
-    sdialog.set_text("");
-	sdialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    sdialog.run();
-
-	EntryDialog edialog{*this, "<big>New Product</big>", true};
-    edialog.set_secondary_text("Select Exposure (1) Shade (2) Part Sun (3) Sun?", true);
-    edialog.set_text("");
-	edialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    edialog.run();
+	try {
+		std::string name = get_string("Name?");
+		double price = get_double("Price?");
+		std::string description = get_string("Description?");
+		std::string species = get_string("Species?");
+		int i = get_int("Exposure? (1) Shade (2) Part Sun (3) Sun");
+		Exposure exposure;
+		if(i==1)	exposure = Exposure::SHADE;
+		else if(i==2)	exposure = Exposure::PARTSUN;
+		else	exposure = Exposure::SUN;
+		store->add_product(*(new Plant{name, price, description, species, exposure}));
+		on_view_products_click();
+	}catch(std::exception& e) {
+	}
 }
 
 void Mainwin::on_new_mulch_click() {
-
-	EntryDialog ndialog{*this, "<big>New Product</big>", true};
-    ndialog.set_secondary_text("Name?", true);
-    ndialog.set_text("");
-	ndialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ndialog.run();
-
-	EntryDialog pdialog{*this, "<big>New Product</big>", true};
-    pdialog.set_secondary_text("Price?", true);
-    pdialog.set_text("");
-	pdialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    pdialog.run();
-
-	EntryDialog ddialog{*this, "<big>New Product</big>", true};
-    ddialog.set_secondary_text("Description?", true);
-    ddialog.set_text("");
-	ddialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    ddialog.run();
-
-	EntryDialog sdialog{*this, "<big>New Product</big>", true};
-    sdialog.set_secondary_text("Volume?", true);
-    sdialog.set_text("");
-	sdialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    sdialog.run();
-
-	EntryDialog edialog{*this, "<big>New Product</big>", true};
-    edialog.set_secondary_text("Material?(1)Rubber(2)Pine(3)Cedar(4)Hardwood?",true);
-    edialog.set_text("");
-	edialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-    edialog.run();
+	try {
+		std::string name = get_string("Name?");
+		double price = get_double("Price?");
+		std::string description = get_string("Description?");
+		int volume = get_int("Volume (ft³)?");
+		int i = get_int("Material? (1) Rubber (2) Pine (3) Cedar (4) Hardwood");
+		Material material;
+		if(i==1)	material = Material::RUBBER;
+		else if(i==2)	material = Material::PINE;
+		else if(i==3)	material = Material::CEDAR;
+		else	material = Material::HARDWOOD;
+		store->add_product(*(new Mulch{name, price, description, volume, material}));
+		on_view_products_click();
+	}catch(std::exception& e) {
+	}
 }
 
 void Mainwin::on_view_products_click() {
-
+	std::string curr = "current Products\n---------------\n\n";
+	for(int i=0; i<store->products(); i++)
+	{
+		std::ostringstream oss;
+		oss << store->product(i) << '\n';
+		curr += oss.str();
+	}
+	display->set_text(curr);
 }
 
 void Mainwin::on_quit_click() {
 	close();
+}
+
+std::string Mainwin::get_string(std::string prompt) {
+    EntryDialog edialog(*this, "<big>New Product</big>", true, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+    edialog.set_secondary_text(prompt, true);
+    if(edialog.run() == Gtk::RESPONSE_CANCEL) throw std::runtime_error{"CANCEL"};
+    return edialog.get_text();
+}
+
+double Mainwin::get_double(std::string prompt) {
+    while(true) {
+        try {
+            return std::stod(get_string(prompt));
+        } catch (std::invalid_argument& e) {
+            prompt = "Invalid value, please try again:";
+        }
+    }
+}
+
+int Mainwin::get_int(std::string prompt) {
+    while(true) {
+        try {
+            return std::stoi(get_string(prompt));
+        } catch (std::invalid_argument& e) {
+            prompt = "Invalid value, please try again:";
+        }
+    }
 }
 		

@@ -1,8 +1,7 @@
 #ifndef __TILE_H
 #define __TILE_H
 
-#include "board.h"
-#include <vector>
+#include <string>
 
 class Tile
 {
