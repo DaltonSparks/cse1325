@@ -1,6 +1,7 @@
 #include "mainwin.h"
 #include "entrydialog.h"
 #include <fstream>
+#include <iostream>
 
 Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}}, filename{"untitled.manga"} {
 	
@@ -214,6 +215,11 @@ Mainwin::Mainwin() : store{nullptr}, display{new Gtk::Label{}}, filename{"untitl
 	//vbox->pack_start(*display, Gtk::PACK_SHRINK, 0);
 	vbox->add(*display);
 
+	//STATUS BAR
+    msg = Gtk::manage(new Gtk::Label());
+    msg->set_hexpand(true);
+    vbox->pack_start(*msg, Gtk::PACK_SHRINK, 0);
+
 	vbox->show_all();
 
 	on_new_store_click(true);
@@ -224,6 +230,11 @@ Mainwin::~Mainwin() { }
 	// ///////// //
 	// CALLBACKS //
 	// ///////// //
+void Mainwin::set_status(){
+	Glib::ustring s = "";
+	s+= "Created Order 0";
+	msg->set_markup(s);
+}
 
 void Mainwin::on_new_store_click(bool untitled) {
     std::string name = "Untitled";
@@ -334,6 +345,7 @@ void Mainwin::on_new_tool_click() {
 		on_view_products_click();
 	}catch(std::exception& e) {
 	}
+	set_status();
 }
 
 void Mainwin::on_new_plant_click() {
@@ -351,6 +363,7 @@ void Mainwin::on_new_plant_click() {
 		on_view_products_click();
 	}catch(std::exception& e) {
 	}
+	set_status();
 }
 
 void Mainwin::on_new_mulch_click() {
@@ -369,6 +382,7 @@ void Mainwin::on_new_mulch_click() {
 		on_view_products_click();
 	}catch(std::exception& e) {
 	}
+	set_status();
 }
 
 void Mainwin::on_new_customer_click() {
@@ -412,20 +426,24 @@ void Mainwin::on_new_customer_click() {
 		}
 	}
 	on_view_customers_click();
-
+	set_status();
 }
 
 void Mainwin::on_new_order_click() {
-	/*Gtk::Dialog dialog{"Order for which customer", *this};
-	std::string s;
+	Gtk::Dialog dialog{"Order for which customer", *this};
 	Gtk::ComboBoxText c_type{true};
 	for(int i=0; i<store->customers(); ++i) {
-		s = store->customer(i);
-		c_type.append(s);	
+		std::ostringstream oss;
+		oss << store->customer(i);
+		c_type.append(oss.str());
 	}
+	c_type.set_active(0);
 	dialog.get_content_area()->pack_start(c_type, Gtk::PACK_SHRINK, 0);
+	dialog.add_button("Start Order",1);
+	dialog.add_button("Cancle",0);
 	dialog.show_all();
-	dialog.run();*/
+	dialog.run();
+	set_status();
 }
 
 void Mainwin::on_view_orders_click() {
